@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Official portfolio of Srimathi N M, Mechanical Engineering student and aspiring automotive design engineer.">
+<meta name="theme-color" content="#0a1224">
+<title>Srimathi N M | Personal Portfolio</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --bg: #070d1c;
+    --bg-2: #0b1530;
+    --surface: rgba(255,255,255,0.045);
+    --surface-2: rgba(255,255,255,0.08);
+    --line: rgba(255,255,255,0.10);
+    --text: #e6edf8;
+    --muted: #93a4c0;
+    --blue: #3b8cff;
+    --cyan: #54d6e8;
+    --violet: #8b7bff;
+    --gold: #f4c76b;
+    --grad: linear-gradient(120deg, #54d6e8, #3b8cff 55%, #8b7bff);
+    --radius: 18px;
+    --font-head: 'Sora', 'Segoe UI', system-ui, sans-serif;
+    --font-body: 'Inter', 'Segoe UI', system-ui, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+body.locked { overflow: hidden; }
+
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+
+/* ambient background */
+.ambient {
+    position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background:
+        radial-gradient(900px 500px at 12% -5%, rgba(59,140,255,.20), transparent 60%),
+        radial-gradient(800px 500px at 95% 10%, rgba(139,123,255,.16), transparent 60%),
+        radial-gradient(900px 600px at 50% 110%, rgba(84,214,232,.10), transparent 60%),
+        var(--bg);
+}
+.ambient::after {
+    content: ""; position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size: 34px 34px;
+    mask-image: linear-gradient(to bottom, #000 0%, transparent 70%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 70%);
+}
+
+.container { width: min(1140px, 90%); margin: 0 auto; }
+
+/* ============ WELCOME SCREEN ============ */
+#welcome {
+    position: fixed; inset: 0; z-index: 1000;
+    display: grid; place-items: center; text-align: center;
+    background:
+        radial-gradient(700px 420px at 50% 40%, rgba(59,140,255,.28), transparent 65%),
+        radial-gradient(500px 400px at 85% 90%, rgba(139,123,255,.22), transparent 65%),
+        #050a16;
+    transition: opacity .9s ease, visibility .9s ease, transform .9s ease;
+    padding: 24px;
+}
+#welcome.leaving { opacity: 0; visibility: hidden; transform: scale(1.06); }
+#welcome canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.welcome-inner { position: relative; z-index: 2; max-width: 720px; }
+.welcome-kicker {
+    font-family: var(--font-head); letter-spacing: .35em; text-transform: uppercase;
+    font-size: 12px; color: var(--cyan);
+    opacity: 0; animation: rise .9s .2s forwards;
+}
+.welcome-title {
+    font-family: var(--font-head); font-weight: 800;
+    font-size: clamp(40px, 9vw, 92px); line-height: 1.05; margin: 18px 0 8px;
+    opacity: 0; animation: rise 1s .5s forwards;
+}
+.welcome-title .grad, .grad {
+    background: var(--grad); -webkit-background-clip: text; background-clip: text;
+    color: transparent; -webkit-text-fill-color: transparent;
+}
+.welcome-name {
+    font-family: var(--font-head); font-size: clamp(18px, 3vw, 26px); font-weight: 600;
+    opacity: 0; animation: rise 1s .85s forwards;
+}
+.welcome-sub {
+    color: var(--muted); margin: 14px auto 34px; max-width: 480px;
+    opacity: 0; animation: rise 1s 1.1s forwards;
+}
+.enter-btn {
+    font-family: var(--font-head); font-weight: 600; font-size: 16px; cursor: pointer;
+    border: 0; color: #04101f; padding: 15px 36px; border-radius: 999px;
+    background: var(--grad); position: relative;
+    box-shadow: 0 10px 40px rgba(59,140,255,.45);
+    opacity: 0; animation: rise 1s 1.4s forwards;
+    transition: transform .25s, box-shadow .25s;
+}
+.enter-btn:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 16px 50px rgba(59,140,255,.6); }
+.enter-btn:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+.enter-hint { margin-top: 18px; font-size: 12px; color: var(--muted); opacity: 0; animation: rise 1s 1.7s forwards; }
+
+@keyframes rise {
+    from { opacity: 0; transform: translateY(24px); filter: blur(6px); }
+    to   { opacity: 1; transform: none; filter: none; }
+}
+
+/* ============ NAV ============ */
+header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    transition: background .3s, backdrop-filter .3s, border-color .3s, padding .3s;
+    border-bottom: 1px solid transparent;
+    padding: 18px 0;
+}
+header.scrolled {
+    background: rgba(7,13,28,.72);
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border-color: var(--line); padding: 11px 0;
+}
+.nav-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.logo {
+    font-family: var(--font-head); font-weight: 800; font-size: 20px;
+    text-decoration: none; letter-spacing: .02em;
+    display: flex; align-items: center; gap: 10px;
+}
+.logo-mark {
+    width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center;
+    background: var(--grad); color: #04101f; font-size: 16px;
+}
+nav { display: flex; gap: 6px; }
+nav a {
+    text-decoration: none; font-size: 14px; color: var(--muted);
+    padding: 8px 14px; border-radius: 999px; transition: .25s;
+}
+nav a:hover, nav a.active { color: #fff; background: var(--surface-2); }
+.menu-btn {
+    display: none; background: var(--surface); border: 1px solid var(--line);
+    color: #fff; width: 42px; height: 42px; border-radius: 12px; cursor: pointer; font-size: 20px;
+}
+
+/* ============ HERO ============ */
+.hero { min-height: 100vh; display: flex; align-items: center; padding: 130px 0 80px; position: relative; overflow: hidden; }
+.hero-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 50px; align-items: center; }
+.pill {
+    display: inline-flex; align-items: center; gap: 10px; padding: 7px 16px;
+    border: 1px solid var(--line); border-radius: 999px; background: var(--surface);
+    font-size: 13px; color: var(--cyan); letter-spacing: .04em;
+}
+.pill i { width: 8px; height: 8px; border-radius: 50%; background: #3be28b; box-shadow: 0 0 0 0 rgba(59,226,139,.7); animation: pulse 2s infinite; }
+@keyframes pulse { 70% { box-shadow: 0 0 0 10px rgba(59,226,139,0); } 100% { box-shadow: 0 0 0 0 rgba(59,226,139,0); } }
+.hero h1 {
+    font-family: var(--font-head); font-weight: 800;
+    font-size: clamp(40px, 6.4vw, 78px); line-height: 1.08; margin: 22px 0 12px;
+}
+.typed-line { font-family: var(--font-head); font-size: clamp(18px, 2.4vw, 26px); color: #cfe3ff; min-height: 1.6em; }
+.typed-line .caret { display: inline-block; width: 2px; height: 1em; background: var(--cyan); margin-left: 3px; vertical-align: -3px; animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.hero p.lead { max-width: 580px; color: var(--muted); margin: 22px 0 32px; font-size: 17px; }
+.btn-row { display: flex; gap: 14px; flex-wrap: wrap; }
+.btn {
+    display: inline-flex; align-items: center; gap: 10px; text-decoration: none; cursor: pointer;
+    padding: 14px 28px; border-radius: 999px; font-weight: 600; font-size: 15px;
+    transition: transform .25s, box-shadow .25s, background .25s; font-family: var(--font-body);
+}
+.btn-primary { background: var(--grad); color: #04101f; box-shadow: 0 10px 30px rgba(59,140,255,.35); border: 0; }
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(59,140,255,.5); }
+.btn-ghost { border: 1px solid var(--line); background: var(--surface); color: #fff; }
+.btn-ghost:hover { background: var(--surface-2); transform: translateY(-3px); }
+
+.hero-visual { position: relative; display: grid; place-items: center; }
+.orb {
+    width: min(380px, 78vw); aspect-ratio: 1; border-radius: 50%; position: relative;
+    display: grid; place-items: center;
+    background: radial-gradient(circle at 30% 25%, rgba(84,214,232,.35), rgba(59,140,255,.12) 45%, transparent 70%);
+    border: 1px solid var(--line);
+    animation: float 7s ease-in-out infinite;
+}
+.orb::before, .orb::after {
+    content: ""; position: absolute; inset: -22px; border-radius: 50%;
+    border: 1px dashed rgba(84,214,232,.35); animation: spin 28s linear infinite;
+}
+.orb::after { inset: -48px; border-color: rgba(139,123,255,.28); animation-duration: 44s; animation-direction: reverse; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes float { 50% { transform: translateY(-14px); } }
+.orb-core {
+    font-family: var(--font-head); font-weight: 800; font-size: clamp(90px, 16vw, 150px);
+    background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent;
+    -webkit-text-fill-color: transparent; line-height: 1;
+}
+.chip-float {
+    position: absolute; padding: 9px 16px; border-radius: 14px; font-size: 13px; font-weight: 500;
+    background: rgba(11,21,48,.85); border: 1px solid var(--line);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 14px 34px rgba(0,0,0,.35); animation: float 6s ease-in-out infinite;
+}
+.chip-float b { color: var(--gold); }
+.cf1 { top: 6%; right: -2%; }
+.cf2 { bottom: 14%; left: -4%; animation-delay: -2s; }
+.cf3 { bottom: -2%; right: 8%; animation-delay: -4s; }
+
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 70px; }
+.stat {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 22px; text-align: center; backdrop-filter: blur(8px);
+}
+.stat strong { display: block; font-family: var(--font-head); font-size: 34px; }
+.stat span { color: var(--muted); font-size: 13px; }
+
+.scroll-cue { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); width: 24px; height: 40px; border: 2px solid var(--line); border-radius: 14px; }
+.scroll-cue::after { content: ""; position: absolute; top: 7px; left: 50%; width: 4px; height: 8px; margin-left: -2px; background: var(--cyan); border-radius: 4px; animation: wheel 1.8s infinite; }
+@keyframes wheel { 0% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(14px); } }
+
+/* ============ SECTIONS ============ */
+section { padding: 100px 0; scroll-margin-top: 40px; position: relative; }
+.eyebrow { font-family: var(--font-head); font-size: 12px; letter-spacing: .3em; text-transform: uppercase; color: var(--cyan); }
+.section-title { font-family: var(--font-head); font-size: clamp(30px, 4.4vw, 46px); font-weight: 700; margin: 10px 0 14px; line-height: 1.15; }
+.section-sub { color: var(--muted); max-width: 640px; margin-bottom: 46px; }
+
+.glass {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+}
+
+/* reveal */
+.reveal { opacity: 0; transform: translateY(34px); transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); }
+.reveal.in { opacity: 1; transform: none; }
+
+/* About */
+.about-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 40px; }
+.about-text p { color: #bccae0; margin-bottom: 18px; font-size: 17px; }
+.about-text strong { color: #fff; }
+.facts { padding: 28px; display: grid; gap: 18px; align-content: start; }
+.fact { display: flex; gap: 14px; align-items: flex-start; }
+.fact .ico { width: 42px; height: 42px; border-radius: 12px; flex: none; display: grid; place-items: center; background: rgba(59,140,255,.15); font-size: 19px; }
+.fact small { display: block; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
+.fact span { font-weight: 500; }
+
+/* Education timeline */
+.timeline { position: relative; display: grid; gap: 22px; padding-left: 34px; }
+.timeline::before { content: ""; position: absolute; left: 9px; top: 8px; bottom: 8px; width: 2px; background: linear-gradient(var(--cyan), var(--violet), transparent); }
+.t-item { padding: 26px 28px; position: relative; transition: transform .3s, border-color .3s; }
+.t-item:hover { transform: translateX(6px); border-color: rgba(84,214,232,.45); }
+.t-item::before { content: ""; position: absolute; left: -33px; top: 32px; width: 14px; height: 14px; border-radius: 50%; background: var(--bg); border: 3px solid var(--cyan); box-shadow: 0 0 0 5px rgba(84,214,232,.15); }
+.t-top { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; align-items: baseline; }
+.t-item h3 { font-family: var(--font-head); font-size: 20px; }
+.t-year { font-size: 13px; color: var(--cyan); background: rgba(84,214,232,.1); padding: 4px 12px; border-radius: 999px; }
+.t-item p { color: var(--muted); font-size: 15px; }
+.t-score { margin-top: 10px; font-family: var(--font-head); font-weight: 600; color: var(--gold); }
+
+/* Academics tabs */
+.tabs { display: inline-flex; padding: 6px; gap: 6px; margin-bottom: 26px; }
+.tab { border: 0; background: transparent; color: var(--muted); font: 600 14px var(--font-body); padding: 10px 24px; border-radius: 12px; cursor: pointer; transition: .25s; }
+.tab.active { background: var(--grad); color: #04101f; }
+.tab:focus-visible { outline: 2px solid var(--cyan); }
+.result { display: none; padding: 32px; }
+.result.active { display: block; animation: rise .6s both; }
+.result-head { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-bottom: 26px; }
+.result-head h3 { font-family: var(--font-head); font-size: 24px; }
+.result-head p { color: var(--muted); font-size: 14px; }
+.score-badge { text-align: right; }
+.score-badge strong { font-family: var(--font-head); font-size: 40px; display: block; line-height: 1; }
+.score-badge span { color: var(--muted); font-size: 13px; }
+.subj { margin-bottom: 18px; }
+.subj-row { display: flex; justify-content: space-between; font-size: 15px; margin-bottom: 7px; }
+.subj-row b { font-family: var(--font-head); }
+.bar { height: 9px; background: rgba(255,255,255,.08); border-radius: 99px; overflow: hidden; }
+.bar i { display: block; height: 100%; width: 0; border-radius: 99px; background: var(--grad); transition: width 1.2s cubic-bezier(.2,.7,.2,1); }
+.result.active.go .bar i { width: var(--w); }
+
+/* Skills */
+.chips { display: flex; flex-wrap: wrap; gap: 14px; }
+.skill-chip {
+    padding: 16px 26px; border-radius: 16px; font-weight: 500; display: flex; align-items: center; gap: 12px;
+    transition: transform .3s, border-color .3s, background .3s;
+}
+.skill-chip:hover { transform: translateY(-5px); border-color: rgba(84,214,232,.5); background: var(--surface-2); }
+.skill-chip small { color: var(--cyan); font-size: 12px; background: rgba(84,214,232,.1); padding: 2px 10px; border-radius: 99px; }
+
+/* Certificates */
+.filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 34px; }
+.filter { border: 1px solid var(--line); background: var(--surface); color: var(--muted); font: 500 14px var(--font-body); padding: 9px 20px; border-radius: 999px; cursor: pointer; transition: .25s; }
+.filter:hover { color: #fff; }
+.filter.active { background: var(--grad); color: #04101f; border-color: transparent; font-weight: 600; }
+.filter:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.cert-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
+.cert {
+    overflow: hidden; cursor: pointer; text-align: left; font: inherit; color: inherit; padding: 0;
+    display: flex; flex-direction: column; transition: transform .35s, border-color .35s, box-shadow .35s; position: relative;
+}
+.cert:hover { transform: translateY(-8px); border-color: rgba(84,214,232,.5); box-shadow: 0 24px 50px rgba(0,0,0,.45), 0 0 0 1px rgba(84,214,232,.2); }
+.cert:focus-visible { outline: 3px solid var(--cyan); outline-offset: 3px; }
+.cert-img { aspect-ratio: 16 / 11; background: #0c1630; overflow: hidden; position: relative; display: grid; place-items: center; }
+.cert-img img { width: 100%; height: 100%; object-fit: contain; transition: transform .6s; }
+.cert:hover .cert-img img { transform: scale(1.06); }
+.cert-img::after { content: "🔍 View"; position: absolute; inset: auto 12px 12px auto; background: rgba(5,10,22,.85); color: #fff; font-size: 12px; padding: 5px 12px; border-radius: 99px; opacity: 0; transform: translateY(6px); transition: .3s; }
+.cert:hover .cert-img::after, .cert:focus-visible .cert-img::after { opacity: 1; transform: none; }
+.cert-body { padding: 20px 22px 24px; display: grid; gap: 6px; }
+.badge { width: fit-content; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; padding: 4px 12px; border-radius: 99px; }
+.badge.gold { background: rgba(244,199,107,.15); color: var(--gold); }
+.badge.blue { background: rgba(59,140,255,.15); color: #7db4ff; }
+.badge.violet { background: rgba(139,123,255,.16); color: #b3a8ff; }
+.cert h3 { font-family: var(--font-head); font-size: 18px; line-height: 1.35; }
+.cert p { color: var(--muted); font-size: 14px; }
+.cert.hide { display: none; }
+.cert.prize::before { content: attr(data-medal); position: absolute; z-index: 2; top: 12px; left: 12px; background: rgba(5,10,22,.85); border: 1px solid rgba(244,199,107,.5); color: var(--gold); font: 700 12px var(--font-head); padding: 6px 12px; border-radius: 99px; }
+
+/* Lightbox */
+#lightbox { position: fixed; inset: 0; z-index: 900; background: rgba(3,6,14,.92); backdrop-filter: blur(10px); display: none; flex-direction: column; align-items: center; justify-content: center; padding: 24px; }
+#lightbox.open { display: flex; animation: fade .3s; }
+@keyframes fade { from { opacity: 0; } }
+#lightbox img { max-height: 76vh; max-width: min(1100px, 92vw); border-radius: 12px; background: #fff; box-shadow: 0 30px 80px rgba(0,0,0,.6); }
+.lb-cap { margin-top: 18px; text-align: center; }
+.lb-cap h4 { font-family: var(--font-head); font-size: 18px; }
+.lb-cap p { color: var(--muted); font-size: 14px; }
+.lb-btn { position: absolute; background: var(--surface-2); border: 1px solid var(--line); color: #fff; width: 48px; height: 48px; border-radius: 50%; font-size: 22px; cursor: pointer; transition: .25s; }
+.lb-btn:hover { background: var(--blue); }
+.lb-close { top: 20px; right: 20px; }
+.lb-prev { left: 20px; top: 50%; transform: translateY(-50%); }
+.lb-next { right: 20px; top: 50%; transform: translateY(-50%); }
+
+/* Achievements */
+.ach-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 22px; }
+.ach { padding: 30px; transition: transform .3s, border-color .3s; position: relative; overflow: hidden; }
+.ach:hover { transform: translateY(-6px); border-color: rgba(244,199,107,.5); }
+.ach .em { font-size: 34px; margin-bottom: 14px; }
+.ach h3 { font-family: var(--font-head); font-size: 19px; margin-bottom: 8px; }
+.ach p { color: var(--muted); font-size: 15px; }
+.ach.top::after { content: ""; position: absolute; width: 180px; height: 180px; right: -60px; top: -60px; background: radial-gradient(circle, rgba(244,199,107,.28), transparent 70%); }
+
+/* Interests */
+.int-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 16px; }
+.int { padding: 26px 18px; text-align: center; transition: transform .3s, background .3s; }
+.int:hover { transform: translateY(-6px) rotate(-1deg); background: var(--surface-2); }
+.int .em { font-size: 34px; display: block; margin-bottom: 8px; }
+.int span { font-weight: 500; }
+
+/* Dream */
+.dream { text-align: center; overflow: hidden; }
+.dream-card { padding: 70px 30px 60px; position: relative; overflow: hidden; background: linear-gradient(135deg, rgba(59,140,255,.18), rgba(139,123,255,.14)); }
+.dream-card h2 { font-family: var(--font-head); font-size: clamp(26px, 4vw, 42px); margin-bottom: 16px; }
+.quote { font-family: var(--font-head); font-size: clamp(20px, 3vw, 30px); font-weight: 600; margin: 8px auto 18px; max-width: 700px; }
+.dream-card p { color: #c0cee4; max-width: 680px; margin: 0 auto 14px; }
+.motto { margin-top: 24px; color: var(--cyan); font-family: var(--font-head); font-weight: 600; letter-spacing: .04em; }
+.car-wrap { margin: 40px auto 0; max-width: 560px; }
+.car-wrap svg { width: 100%; height: auto; overflow: visible; }
+.car-line { fill: none; stroke: url(#cg); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1400; stroke-dashoffset: 1400; }
+.dream-card.in-view .car-line { animation: draw 3.2s ease forwards; }
+.dream-card.in-view .wheel { animation: wheelspin 2.4s linear infinite 3s; transform-box: fill-box; transform-origin: center; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes wheelspin { to { transform: rotate(360deg); } }
+
+/* Contact */
+.contact-card { padding: 60px 30px; text-align: center; }
+.contact-card h2 { font-family: var(--font-head); font-size: clamp(28px, 4vw, 42px); margin-bottom: 12px; }
+.contact-card p { color: var(--muted); max-width: 560px; margin: 0 auto 30px; }
+
+footer { border-top: 1px solid var(--line); padding: 34px 0; text-align: center; color: var(--muted); font-size: 14px; }
+footer span { color: var(--cyan); font-weight: 600; }
+
+#toTop { position: fixed; right: 22px; bottom: 22px; z-index: 150; width: 48px; height: 48px; border-radius: 50%; border: 1px solid var(--line); background: rgba(11,21,48,.85); color: #fff; font-size: 20px; cursor: pointer; opacity: 0; visibility: hidden; transform: translateY(14px); transition: .3s; backdrop-filter: blur(8px); }
+#toTop.show { opacity: 1; visibility: visible; transform: none; }
+#toTop:hover { background: var(--blue); }
+
+.progress { position: fixed; top: 0; left: 0; height: 3px; width: 0; background: var(--grad); z-index: 300; }
+
+/* Responsive */
+@media (max-width: 900px) {
+    .hero-grid, .about-grid { grid-template-columns: 1fr; }
+    .hero-visual { order: -1; margin-bottom: 30px; }
+    .hero { padding-top: 110px; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .scroll-cue { display: none; }
+    .menu-btn { display: grid; place-items: center; }
+    nav {
+        position: absolute; top: 100%; left: 5%; right: 5%; flex-direction: column;
+        background: rgba(7,13,28,.96); border: 1px solid var(--line); border-radius: 18px; padding: 10px;
+        margin-top: 10px; display: none;
+    }
+    nav.open { display: flex; }
+    nav a { padding: 13px 16px; }
+    section { padding: 72px 0; }
+    .cf1 { right: 2%; } .cf2 { left: 0; }
+    .orb { width: min(240px, 62vw); }
+    .orb::before { inset: -16px; } .orb::after { inset: -32px; }
+    .hero-visual { padding: 36px 0; }
+}
+@media (max-width: 480px) {
+    .cert-grid { grid-template-columns: 1fr; }
+    .lb-prev { left: 8px; } .lb-next { right: 8px; }
+    .result { padding: 22px; }
+    .score-badge { text-align: left; }
+}
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+    .reveal { opacity: 1; transform: none; }
+    .car-line { stroke-dashoffset: 0; }
+}
+</style>
+</head>
+
+<body class="locked">
+
+<div class="ambient"></div>
+<div class="progress" id="progress"></div>
+
+<!-- ============ WELCOME ============ -->
+<div id="welcome" role="dialog" aria-label="Welcome">
+    <canvas id="stars" aria-hidden="true"></canvas>
+    <div class="welcome-inner">
+        <div class="welcome-kicker">Hello &amp; Namaste</div>
+        <h1 class="welcome-title">Welcome to my<br><span class="grad">Portfolio</span></h1>
+        <div class="welcome-name">I'm Srimathi N M</div>
+        <p class="welcome-sub">Engineering student, quiz champion and future car designer. Thank you for visiting. Come explore my journey!</p>
+        <button class="enter-btn" id="enterBtn">Enter My World →</button>
+        <div class="enter-hint">Press Enter or click to continue</div>
+    </div>
+</div>
+
+<!-- ============ HEADER ============ -->
+<header id="header">
+    <div class="container nav-row">
+        <a href="#home" class="logo"><span class="logo-mark">S</span> Srimathi N M</a>
+        <button class="menu-btn" id="menuBtn" aria-label="Toggle menu" aria-expanded="false">☰</button>
+        <nav id="nav">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#education">Education</a>
+            <a href="#academics">Academics</a>
+            <a href="#skills">Skills</a>
+            <a href="#certificates">Certificates</a>
+            <a href="#achievements">Achievements</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="home">
+    <div class="container">
+        <div class="hero-grid">
+            <div>
+                <span class="pill"><i></i> Welcome, visitor! Glad you're here</span>
+                <h1>Hi, I'm <span class="grad">Srimathi N M</span></h1>
+                <div class="typed-line"><span id="typed"></span><span class="caret"></span></div>
+                <p class="lead">A passionate engineering student exploring mechanical design, automotive engineering, programming and artificial intelligence. Always curious, always learning and always ready to explore new opportunities.</p>
+                <div class="btn-row">
+                    <a class="btn btn-primary" href="#certificates">View Certificates →</a>
+                    <a class="btn btn-ghost" href="https://www.linkedin.com/in/srimathi-natarajan-a31566424" target="_blank" rel="noopener noreferrer">Connect With Me</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="orb"><span class="orb-core">S</span></div>
+                <div class="chip-float cf1">🏆 <b>1st</b> Quizathon</div>
+                <div class="chip-float cf2">⚙️ Mechanical Design</div>
+                <div class="chip-float cf3">🚗 Dream: My Own Car</div>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat reveal"><strong data-count="40" data-suffix="+">0</strong><span>Coursera Certificates</span></div>
+            <div class="stat reveal"><strong data-count="9">0</strong><span>Event Certificates Below</span></div>
+            <div class="stat reveal"><strong data-count="2">0</strong><span>Prizes Won</span></div>
+            <div class="stat reveal"><strong data-count="90.8" data-decimals="1" data-suffix="%">0</strong><span>Class XII Score</span></div>
+        </div>
+    </div>
+    <div class="scroll-cue" aria-hidden="true"></div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section id="about">
+    <div class="container">
+        <div class="eyebrow reveal">Get to know me</div>
+        <h2 class="section-title reveal">About Me</h2>
+        <div class="about-grid">
+            <div class="about-text reveal">
+                <p>I am <strong>Srimathi N M</strong>, a first-year B.E. Mechanical Engineering student at <strong>Sri Sairam Engineering College</strong>, belonging to the 2026–2030 batch.</p>
+                <p>I am enthusiastic about engineering, technology, creativity and continuous learning. My interests include programming, solving mathematical problems and exploring artificial intelligence.</p>
+                <p>I enjoy participating in technical events, workshops and quizzes because they provide opportunities to learn, collaborate and gain new experiences.</p>
+                <p>I have completed more than <strong>40 Coursera certificates</strong> and have secured prizes in technical and quiz competitions.</p>
+                <p>My ultimate ambition is to become a <strong>Mechanical Design Engineer</strong> and one day design my own car.</p>
+            </div>
+            <aside class="glass facts reveal">
+                <div class="fact"><div class="ico">🎓</div><div><small>Studying</small><span>B.E. Mechanical Engineering</span></div></div>
+                <div class="fact"><div class="ico">🏫</div><div><small>College</small><span>Sri Sairam Engineering College</span></div></div>
+                <div class="fact"><div class="ico">📅</div><div><small>Batch</small><span>2026 – 2030</span></div></div>
+                <div class="fact"><div class="ico">🎯</div><div><small>Goal</small><span>Mechanical Design Engineer</span></div></div>
+                <div class="fact"><div class="ico">📡</div><div><small>Member</small><span>IEEE Student Member</span></div></div>
+            </aside>
+        </div>
+    </div>
+</section>
+
+<!-- ============ EDUCATION ============ -->
+<section id="education">
+    <div class="container">
+        <div class="eyebrow reveal">My path</div>
+        <h2 class="section-title reveal">Education</h2>
+        <p class="section-sub reveal">Where I've studied and where I'm heading.</p>
+        <div class="timeline">
+            <div class="glass t-item reveal">
+                <div class="t-top"><h3>B.E. Mechanical Engineering</h3><span class="t-year">2026 – 2030</span></div>
+                <p>Sri Sairam Engineering College</p>
+                <p>First Year Student</p>
+            </div>
+            <div class="glass t-item reveal">
+                <div class="t-top"><h3>Higher Secondary – Class XII</h3><span class="t-year">Passed out: 2026</span></div>
+                <p>Srimathi Sundaravalli Memorial School · CBSE</p>
+                <div class="t-score">90.8% · 454/500</div>
+            </div>
+            <div class="glass t-item reveal">
+                <div class="t-top"><h3>Secondary – Class X</h3><span class="t-year">Passed out: 2024</span></div>
+                <p>Srimathi Sundaravalli Memorial School · CBSE</p>
+                <div class="t-score">89.2% · 446/500</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ ACADEMICS ============ -->
+<section id="academics">
+    <div class="container">
+        <div class="eyebrow reveal">Results</div>
+        <h2 class="section-title reveal">Academic Performance</h2>
+        <div class="glass tabs reveal" role="tablist">
+            <button class="tab active" role="tab" aria-selected="true" data-target="r12">Class XII</button>
+            <button class="tab" role="tab" aria-selected="false" data-target="r10">Class X</button>
+        </div>
+
+        <div class="glass result active" id="r12" role="tabpanel">
+            <div class="result-head">
+                <div><h3>Class XII – CBSE</h3><p>Srimathi Sundaravalli Memorial School · Passed Out: 2026</p></div>
+                <div class="score-badge"><strong class="grad">90.8%</strong><span>454 / 500 marks</span></div>
+            </div>
+            <div class="subj"><div class="subj-row"><span>English</span><b>89</b></div><div class="bar"><i style="--w:89%"></i></div></div>
+            <div class="subj"><div class="subj-row"><span>Mathematics</span><b>87</b></div><div class="bar"><i style="--w:87%"></i></div></div>
+            <div class="subj"><div class="subj-row"><span>Physics</span><b>86</b></div><div class="bar"><i style="--w:86%"></i></div></div>
+            <div class="subj"><div class="subj-row"><span>Chemistry</span><b>95</b></div><div class="bar"><i style="--w:95%"></i></div></div>
+            <div class="subj"><div class="subj-row"><span>Computer Science</span><b>97</b></div><div class="bar"><i style="--w:97%"></i></div></div>
+        </div>
+
+        <div class="glass result" id="r10" role="tabpanel">
+            <div class="result-head">
+                <div><h3>Class X – CBSE</h3><p>Srimathi Sundaravalli Memorial School · Passed Out: 2024</p></div>
+                <div class="score-badge"><strong class="grad">89.2%</strong><span>446 / 500 marks</span></div>
+            </div>
+            <div class="subj"><div class="subj-row"><span>English</span><b>87</b></div><div class="bar"><i style="--w:87%"></i></div></div>
+            <div class="subj"><div class="subj-row"><span>Tamil</span><b>95</b></div><div class="bar"><i style="--w:95%"></i></div></div>
+            <div class="subj"><div class="subj-row"><span>Mathematics</span><b>90</b></div><div class="bar"><i style="--w:90%"></i></div></div>
+            <div class="subj"><div class="subj-row"><span>Science</span><b>92</b></div><div class="bar"><i style="--w:92%"></i></div></div>
+            <div class="subj"><div class="subj-row"><span>Social Science</span><b>82</b></div><div class="bar"><i style="--w:82%"></i></div></div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ SKILLS ============ -->
+<section id="skills">
+    <div class="container">
+        <div class="eyebrow reveal">What I work with</div>
+        <h2 class="section-title reveal">Technical Skills</h2>
+        <div class="chips">
+            <div class="glass skill-chip reveal">🐍 Python Programming</div>
+            <div class="glass skill-chip reveal">🗄️ SQL</div>
+            <div class="glass skill-chip reveal">💻 C Programming <small>Learning</small></div>
+            <div class="glass skill-chip reveal">🤖 Artificial Intelligence <small>Exploring</small></div>
+            <div class="glass skill-chip reveal">➗ Mathematical Problem Solving</div>
+            <div class="glass skill-chip reveal">⚙️ Mechanical Engineering</div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ CERTIFICATES ============ -->
+<section id="certificates">
+    <div class="container">
+        <div class="eyebrow reveal">Proof of the journey</div>
+        <h2 class="section-title reveal">Certificates &amp; Recognition</h2>
+        <p class="section-sub reveal">Prizes, national-level fest events, IEEE workshops and webinars. Click any certificate to view it in full.</p>
+
+        <div class="filters reveal" role="group" aria-label="Filter certificates">
+            <button class="filter active" data-filter="all">All (9)</button>
+            <button class="filter" data-filter="prize">🏆 Prizes (2)</button>
+            <button class="filter" data-filter="workshop">Workshops &amp; Webinars (3)</button>
+            <button class="filter" data-filter="event">Events (4)</button>
+        </div>
+
+        <div class="cert-grid" id="certGrid">
+
+            <button class="glass cert prize reveal" data-cat="prize" data-medal="🥇 1st Prize"
+                data-title="Quizathon – 1st Prize" data-desc="Certificate of Appreciation · IEEE Professional Communication Society &amp; English Literary Club, Sri Sairam Engineering College · 17 October 2026"
+                data-src="certificates/quizathon-1st-prize.jpg">
+                <div class="cert-img"><img loading="lazy" src="certificates/quizathon-1st-prize.jpg" alt="Quizathon 1st prize certificate"></div>
+                <div class="cert-body"><span class="badge gold">Prize Winner</span><h3>Quizathon – 1st Prize</h3><p>IEEE ProComm Society &amp; English Literary Club · 17 Oct 2026</p></div>
+            </button>
+
+            <button class="glass cert prize reveal" data-cat="prize" data-medal="🥉 3rd Prize"
+                data-title="Quest for Clarity – 3rd Prize" data-desc="Certificate of Achievement · Invente'26, National Level Tech Fest · SSN College of Engineering &amp; Shiv Nadar University Chennai · 25–26 September 2026"
+                data-src="certificates/quest-for-clarity-3rd-prize.jpg">
+                <div class="cert-img"><img loading="lazy" src="certificates/quest-for-clarity-3rd-prize.jpg" alt="Quest for Clarity 3rd prize certificate"></div>
+                <div class="cert-body"><span class="badge gold">Prize Winner</span><h3>Quest for Clarity – 3rd Prize</h3><p>Invente'26 · SSN &amp; Shiv Nadar University · 25–26 Sep 2026</p></div>
+            </button>
+
+            <button class="glass cert reveal" data-cat="workshop"
+                data-title="Code Mastery Workshop" data-desc="Certificate of Participation · Organized by AuraType · 24 October 2026"
+                data-src="certificates/code-mastery-workshop.jpg">
+                <div class="cert-img"><img loading="lazy" src="certificates/code-mastery-workshop.jpg" alt="Code Mastery Workshop certificate"></div>
+                <div class="cert-body"><span class="badge blue">Workshop</span><h3>Code Mastery Workshop</h3><p>AuraType · 24 Oct 2026</p></div>
+            </button>
+
+            <button class="glass cert reveal" data-cat="workshop"
+                data-title="EDSPARK Web Development Workshop" data-desc="Certificate of Participation · IEEE Education Society, Sri Sairam Engineering College · 10–11 October 2026"
+                data-src="certificates/edspark-1-0.jpg">
+                <div class="cert-img"><img loading="lazy" src="certificates/edspark-1-0.jpg" alt="EDSPARK Web Development Workshop certificate"></div>
+                <div class="cert-body"><span class="badge blue">Workshop</span><h3>EDSPARK Web Development</h3><p>IEEE Education Society · 10–11 Oct 2026</p></div>
+            </button>
+
+            <button class="glass cert reveal" data-cat="workshop"
+                data-title="Building Reliable &amp; Responsible AI Systems with Azure" data-desc="Certificate of Participation · IEEE Day Celebration, IEEE Reliability Society – Student Branch Chapter, Sri Sairam Engineering College · 14 October 2026"
+                data-src="certificates/building-reliable-and-responsible-ai-systems-with-azure.jpg">
+                <div class="cert-img"><img loading="lazy" src="certificates/building-reliable-and-responsible-ai-systems-with-azure.jpg" alt="Building Reliable and Responsible AI Systems with Azure certificate"></div>
+                <div class="cert-body"><span class="badge blue">Webinar</span><h3>Reliable &amp; Responsible AI with Azure</h3><p>IEEE Day · IEEE Reliability Society · 14 Oct 2026</p></div>
+            </button>
+
+            <button class="glass cert reveal" data-cat="event"
+                data-title="AI Odyssey" data-desc="Certificate of Appreciation · IEEE Professional Communication Society &amp; English Literary Club, Sri Sairam Engineering College · 18 October 2026"
+                data-src="certificates/ai-odyssey.jpg">
+                <div class="cert-img"><img loading="lazy" src="certificates/ai-odyssey.jpg" alt="AI Odyssey certificate of appreciation"></div>
+                <div class="cert-body"><span class="badge violet">Event</span><h3>AI Odyssey</h3><p>IEEE ProComm Society · 18 Oct 2026</p></div>
+            </button>
+
+            <button class="glass cert reveal" data-cat="event"
+                data-title="App Flip – Invente'26" data-desc="Certificate of Participation · National Level Tech Fest · SSN College of Engineering &amp; Shiv Nadar University Chennai · 25–26 September 2026"
+                data-src="certificates/app-flip.jpg">
+                <div class="cert-img"><img loading="lazy" src="certificates/app-flip.jpg" alt="App Flip Invente'26 certificate"></div>
+                <div class="cert-body"><span class="badge violet">Event</span><h3>App Flip · Invente'26</h3><p>SSN &amp; Shiv Nadar University · 25–26 Sep 2026</p></div>
+            </button>
+
+            <button class="glass cert reveal" data-cat="event"
+                data-title="Murder Mystiql – Invente'26" data-desc="Certificate of Participation · National Level Tech Fest · SSN College of Engineering &amp; Shiv Nadar University Chennai · 25–26 September 2026"
+                data-src="certificates/murder-mystiql.jpg">
+                <div class="cert-img"><img loading="lazy" src="certificates/murder-mystiql.jpg" alt="Murder Mystiql Invente'26 certificate"></div>
+                <div class="cert-body"><span class="badge violet">Event</span><h3>Murder Mystiql · Invente'26</h3><p>SSN &amp; Shiv Nadar University · 25–26 Sep 2026</p></div>
+            </button>
+
+            <button class="glass cert reveal" data-cat="event"
+                data-title="Build Your Fest – Stall Edition" data-desc="Certificate of Participation · Product Trial, Google Student Ambassador Program 2026 · Brought a unique brand idea to life using Gemini and Nano Banana"
+                data-src="certificates/google-fest-stall.jpg">
+                <div class="cert-img"><img loading="lazy" src="certificates/google-fest-stall.jpg" alt="Google Student Ambassador Program Build Your Fest certificate"></div>
+                <div class="cert-body"><span class="badge violet">Event</span><h3>Build Your Fest · Stall Edition</h3><p>Google Student Ambassador Program 2026</p></div>
+            </button>
+
+        </div>
+    </div>
+</section>
+
+<!-- ============ ACHIEVEMENTS ============ -->
+<section id="achievements">
+    <div class="container">
+        <div class="eyebrow reveal">Highlights</div>
+        <h2 class="section-title reveal">Achievements &amp; Recognition</h2>
+        <div class="ach-grid">
+            <div class="glass ach top reveal"><div class="em">🥇</div><h3>1st Place – Quizathon</h3><p>Won first place in the Quizathon conducted by Sri Sairam Engineering College.</p></div>
+            <div class="glass ach top reveal"><div class="em">🥉</div><h3>3rd Prize – Quest for Clarity</h3><p>Secured third place in Quest for Clarity at Invente'26, conducted by SSN.</p></div>
+            <div class="glass ach reveal"><div class="em">📚</div><h3>40+ Coursera Certificates</h3><p>Completed more than 40 online courses and certificates, demonstrating a commitment to continuous learning.</p></div>
+            <div class="glass ach reveal"><div class="em">📡</div><h3>IEEE Student Member</h3><p>IEEE member interested in exploring engineering knowledge and professional opportunities.</p></div>
+            <div class="glass ach reveal"><div class="em">🛠️</div><h3>Technical Events &amp; Workshops</h3><p>Participated in various technical events, workshops and quizzes, gaining valuable exposure and learning experiences.</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ INTERESTS ============ -->
+<section id="interests">
+    <div class="container">
+        <div class="eyebrow reveal">Beyond the classroom</div>
+        <h2 class="section-title reveal">My Interests</h2>
+        <div class="int-grid">
+            <div class="glass int reveal"><span class="em">🚗</span><span>Automotive Design</span></div>
+            <div class="glass int reveal"><span class="em">📐</span><span>Mechanical Design</span></div>
+            <div class="glass int reveal"><span class="em">👩‍💻</span><span>Coding</span></div>
+            <div class="glass int reveal"><span class="em">🍳</span><span>Cooking</span></div>
+            <div class="glass int reveal"><span class="em">🧮</span><span>Mathematics</span></div>
+            <div class="glass int reveal"><span class="em">📺</span><span>Korean Series</span></div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ DREAM ============ -->
+<section class="dream" id="dream">
+    <div class="container">
+        <div class="glass dream-card reveal" id="dreamCard">
+            <div class="eyebrow">My dream · My vision · My journey</div>
+            <div class="quote grad" style="margin-top:14px">"One day, I want to design my own car."</div>
+            <p>I believe that every great invention begins with curiosity and imagination. I am ready to learn, experiment, explore and transform my ideas into meaningful engineering designs.</p>
+            <div class="car-wrap" aria-hidden="true">
+                <svg viewBox="0 0 560 190" xmlns="http://www.w3.org/2000/svg">
+                    <defs><linearGradient id="cg" x1="0" x2="1"><stop offset="0" stop-color="#54d6e8"/><stop offset=".55" stop-color="#3b8cff"/><stop offset="1" stop-color="#8b7bff"/></linearGradient></defs>
+                    <path class="car-line" d="M20 140 C20 124 34 118 58 114 L128 104 C150 80 178 56 214 52 L318 52 C352 54 386 78 412 102 L478 112 C510 118 540 126 540 140 L540 150 L20 150 Z"/>
+                    <path class="car-line" d="M150 102 C166 80 186 66 214 64 L300 64 L300 102 Z"/>
+                    <path class="car-line" d="M312 64 C340 66 366 84 384 102 L312 102 Z"/>
+                    <path class="car-line" d="M20 150 L88 150 M172 150 L378 150 M462 150 L540 150"/>
+                    <g class="wheel"><circle class="car-line" cx="130" cy="150" r="34"/><circle class="car-line" cx="130" cy="150" r="14"/><path class="car-line" d="M130 116 V184 M96 150 H164"/></g>
+                    <g class="wheel"><circle class="car-line" cx="420" cy="150" r="34"/><circle class="car-line" cx="420" cy="150" r="14"/><path class="car-line" d="M420 116 V184 M386 150 H454"/></g>
+                </svg>
+            </div>
+            <div class="motto">Always Learning · Always Exploring · Always Growing</div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact">
+    <div class="container">
+        <div class="glass contact-card reveal">
+            <div class="eyebrow">Say hello</div>
+            <h2>Let's Connect</h2>
+            <p>I am open to learning opportunities, technical events, collaborations and meaningful professional connections.</p>
+            <a class="btn btn-primary" href="https://www.linkedin.com/in/srimathi-natarajan-a31566424" target="_blank" rel="noopener noreferrer">Visit My LinkedIn Profile →</a>
+        </div>
+    </div>
+</section>
+
+</main>
+
+<footer>
+    <div class="container">
+        <p>© 2026 <span>Srimathi N M</span> | Personal Engineering Portfolio</p>
+        <p>Designed with curiosity, creativity and passion.</p>
+    </div>
+</footer>
+
+<button id="toTop" aria-label="Back to top">↑</button>
+
+<!-- Lightbox -->
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Certificate viewer">
+    <button class="lb-btn lb-close" id="lbClose" aria-label="Close">✕</button>
+    <button class="lb-btn lb-prev" id="lbPrev" aria-label="Previous certificate">‹</button>
+    <img id="lbImg" src="" alt="">
+    <button class="lb-btn lb-next" id="lbNext" aria-label="Next certificate">›</button>
+    <div class="lb-cap"><h4 id="lbTitle"></h4><p id="lbDesc"></p></div>
+</div>
+
+<script>
+(function () {
+    'use strict';
+    var $ = function (s, c) { return (c || document).querySelector(s); };
+    var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* ---------- Welcome screen ---------- */
+    var welcome = $('#welcome');
+    var entered = false;
+    function enter() {
+        if (entered) return;
+        entered = true;
+        welcome.classList.add('leaving');
+        document.body.classList.remove('locked');
+        window.scrollTo(0, 0);
+        setTimeout(function () { welcome.style.display = 'none'; startTyping(); }, 900);
+    }
+    $('#enterBtn').addEventListener('click', enter);
+    document.addEventListener('keydown', function (e) { if (!entered && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); enter(); } });
+    $('#enterBtn').focus({ preventScroll: true });
+
+    /* star field */
+    (function stars() {
+        var c = $('#stars'), x = c.getContext('2d'), w, h, pts = [], raf;
+        function size() {
+            var d = window.devicePixelRatio || 1;
+            w = c.width = innerWidth * d; h = c.height = innerHeight * d;
+            pts = [];
+            var n = Math.min(120, Math.floor(innerWidth / 10));
+            for (var i = 0; i < n; i++) pts.push({ x: Math.random() * w, y: Math.random() * h, r: (Math.random() * 1.6 + .4) * d, vx: (Math.random() - .5) * .35 * d, vy: (Math.random() - .5) * .35 * d });
+        }
+        function draw() {
+            x.clearRect(0, 0, w, h);
+            for (var i = 0; i < pts.length; i++) {
+                var p = pts[i];
+                p.x += p.vx; p.y += p.vy;
+                if (p.x < 0) p.x = w; if (p.x > w) p.x = 0; if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
+                x.beginPath(); x.arc(p.x, p.y, p.r, 0, 6.283); x.fillStyle = 'rgba(160,215,255,.75)'; x.fill();
+                for (var j = i + 1; j < pts.length; j++) {
+                    var q = pts[j], dx = p.x - q.x, dy = p.y - q.y, d2 = dx * dx + dy * dy, lim = 130 * (window.devicePixelRatio || 1);
+                    if (d2 < lim * lim) { x.strokeStyle = 'rgba(84,214,232,' + (1 - Math.sqrt(d2) / lim) * .25 + ')'; x.lineWidth = 1; x.beginPath(); x.moveTo(p.x, p.y); x.lineTo(q.x, q.y); x.stroke(); }
+                }
+            }
+            if (!entered && !reduce) raf = requestAnimationFrame(draw);
+        }
+        size(); draw();
+        addEventListener('resize', function () { size(); if (reduce) draw(); });
+    })();
+
+    /* ---------- Typing effect ---------- */
+    var roles = ['Aspiring Mechanical Design Engineer', 'Quiz Champion 🏆', 'Future Automotive Designer 🚗', 'Lifelong Learner'];
+    var tEl = $('#typed'), ri = 0, ci = 0, del = false, typingStarted = false;
+    function startTyping() {
+        if (typingStarted) return; typingStarted = true;
+        if (reduce) { tEl.textContent = roles[0]; return; }
+        (function tick() {
+            var word = roles[ri];
+            ci += del ? -1 : 1;
+            tEl.textContent = word.slice(0, ci);
+            var delay = del ? 35 : 70;
+            if (!del && ci === word.length) { del = true; delay = 1600; }
+            else if (del && ci === 0) { del = false; ri = (ri + 1) % roles.length; delay = 350; }
+            setTimeout(tick, delay);
+        })();
+    }
+
+    /* ---------- Header / scroll ---------- */
+    var header = $('#header'), toTop = $('#toTop'), prog = $('#progress');
+    var links = $$('nav a'), secs = links.map(function (a) { return $(a.getAttribute('href')); });
+    function onScroll() {
+        var y = scrollY, max = document.documentElement.scrollHeight - innerHeight;
+        header.classList.toggle('scrolled', y > 30);
+        toTop.classList.toggle('show', y > 600);
+        prog.style.width = (max > 0 ? y / max * 100 : 0) + '%';
+        var cur = 0;
+        secs.forEach(function (s, i) { if (s && s.getBoundingClientRect().top < innerHeight * .4) cur = i; });
+        links.forEach(function (a, i) { a.classList.toggle('active', i === cur); });
+    }
+    addEventListener('scroll', onScroll, { passive: true }); onScroll();
+    toTop.addEventListener('click', function () { scrollTo({ top: 0, behavior: 'smooth' }); });
+
+    var menuBtn = $('#menuBtn'), nav = $('#nav');
+    menuBtn.addEventListener('click', function () {
+        var o = nav.classList.toggle('open');
+        menuBtn.setAttribute('aria-expanded', o); menuBtn.textContent = o ? '✕' : '☰';
+    });
+    links.forEach(function (a) { a.addEventListener('click', function () { nav.classList.remove('open'); menuBtn.textContent = '☰'; menuBtn.setAttribute('aria-expanded', 'false'); }); });
+
+    /* ---------- Reveal on scroll + counters ---------- */
+    function countUp(el) {
+        var target = parseFloat(el.dataset.count), dec = +(el.dataset.decimals || 0), suf = el.dataset.suffix || '';
+        if (reduce) { el.textContent = target.toFixed(dec) + suf; return; }
+        var t0 = performance.now(), dur = 1600;
+        (function step(t) {
+            var p = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+            el.textContent = (target * e).toFixed(dec) + suf;
+            if (p < 1) requestAnimationFrame(step);
+        })(t0);
+    }
+    var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+            if (!en.isIntersecting) return;
+            en.target.classList.add('in');
+            var n = $('[data-count]', en.target); if (n && !n.dataset.done) { n.dataset.done = 1; countUp(n); }
+            if (en.target.id === 'dreamCard') en.target.classList.add('in-view');
+            io.unobserve(en.target);
+        });
+    }, { threshold: .15 });
+    $$('.reveal').forEach(function (el, i) { el.style.transitionDelay = (i % 4) * 70 + 'ms'; io.observe(el); });
+
+    /* ---------- Academics tabs ---------- */
+    var tabs = $$('.tab'), panels = $$('.result');
+    function animateBars(p) { p.classList.remove('go'); void p.offsetWidth; requestAnimationFrame(function () { p.classList.add('go'); }); }
+    tabs.forEach(function (t) {
+        t.addEventListener('click', function () {
+            tabs.forEach(function (x) { x.classList.toggle('active', x === t); x.setAttribute('aria-selected', x === t); });
+            panels.forEach(function (p) { var on = p.id === t.dataset.target; p.classList.toggle('active', on); if (on) animateBars(p); });
+        });
+    });
+    var acadIO = new IntersectionObserver(function (en) { if (en[0].isIntersecting) { animateBars($('.result.active')); acadIO.disconnect(); } }, { threshold: .25 });
+    acadIO.observe($('#academics .result.active'));
+
+    /* ---------- Certificates: filter + lightbox ---------- */
+    var certs = $$('.cert'), filters = $$('.filter');
+    filters.forEach(function (f) {
+        f.addEventListener('click', function () {
+            filters.forEach(function (x) { x.classList.toggle('active', x === f); });
+            var k = f.dataset.filter;
+            certs.forEach(function (c) { c.classList.toggle('hide', k !== 'all' && c.dataset.cat.split(' ').indexOf(k) === -1); });
+        });
+    });
+
+    var lb = $('#lightbox'), lbImg = $('#lbImg'), lbTitle = $('#lbTitle'), lbDesc = $('#lbDesc'), idx = 0, lastFocus = null;
+    function visible() { return certs.filter(function (c) { return !c.classList.contains('hide'); }); }
+    function show(i) {
+        var list = visible(); if (!list.length) return;
+        idx = (i + list.length) % list.length;
+        var c = list[idx];
+        lbImg.src = c.dataset.src; lbImg.alt = c.dataset.title + ' certificate';
+        lbTitle.textContent = c.dataset.title; lbDesc.textContent = c.dataset.desc;
+    }
+    function openLb(c) {
+        lastFocus = document.activeElement;
+        show(visible().indexOf(c));
+        lb.classList.add('open'); document.body.classList.add('locked'); $('#lbClose').focus();
+    }
+    function closeLb() { lb.classList.remove('open'); document.body.classList.remove('locked'); if (lastFocus) lastFocus.focus(); }
+    certs.forEach(function (c) { c.addEventListener('click', function () { openLb(c); }); });
+    $('#lbClose').addEventListener('click', closeLb);
+    $('#lbPrev').addEventListener('click', function () { show(idx - 1); });
+    $('#lbNext').addEventListener('click', function () { show(idx + 1); });
+    lb.addEventListener('click', function (e) { if (e.target === lb) closeLb(); });
+    document.addEventListener('keydown', function (e) {
+        if (!lb.classList.contains('open')) return;
+        if (e.key === 'Escape') closeLb();
+        if (e.key === 'ArrowLeft') show(idx - 1);
+        if (e.key === 'ArrowRight') show(idx + 1);
+    });
+    var sx = 0;
+    lb.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; }, { passive: true });
+    lb.addEventListener('touchend', function (e) { var dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 60) show(idx + (dx < 0 ? 1 : -1)); }, { passive: true });
+})();
+</script>
+</body>
+</html>
